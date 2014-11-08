@@ -21,44 +21,56 @@ public class ZoneDessin extends JPanel implements MouseListener{
 		super();
 		this.setBackground(Color.WHITE);
 		this.f = fen;
-		this.g = fen.getGestion();
+		this.g = f.getGestion();
 		this.addMouseListener(this);
 	}
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
 		g.drawLine(50, 50, 400, 400);
+		this.g.afficher(g);
+		
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		System.out.println("Truc");
 		if(!enCours)
 		{
 			switch(g.mode)
 			{
 				case LIGNE:
-					enCreation = new Ligne(e.getX(), e.getX(), cursor_x, cursor_y);
+					System.out.println(e.getX() +" "+ e.getY());
+					enCreation = new Ligne(e.getX(), e.getY(),0, 0);
 					break;
 			}
 			enCours = true;
 		}
 		else
 		{
-			
+			switch(g.mode)
+			{
+			case LIGNE:
+				System.out.println(g.mode);
+				((Ligne)enCreation).setP2(e.getX(), e.getY());
+				g.ajouter(enCreation);
+				break;
+			}
+			this.repaint();
+			enCours = false;
+			enCreation = null;
 		}
 			
 	}
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		this.cursor_x = e.getX();
-		this.cursor_y = e.getY();
-		
-		if(enCours)
-		{
-			if(enCreation instanceof Ligne)
-			{
-				((Ligne) enCreation).setP2(this.cursor_x, this.cursor_y);
-			}
-		}
+
+//		if(enCours)
+//		{
+//			if(enCreation instanceof Ligne)
+//			{
+//				((Ligne) enCreation).setP2(this.cursor_x, this.cursor_y);
+//			}
+//		}
 	}
 	@Override
 	public void mouseExited(MouseEvent e) {
@@ -71,7 +83,7 @@ public class ZoneDessin extends JPanel implements MouseListener{
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
+	
 		
 	}
 }

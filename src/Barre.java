@@ -1,5 +1,9 @@
+import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 
@@ -10,6 +14,8 @@ public class Barre extends JMenuBar{
 	private JMenu fichier;
 	
 	private JMenu options;
+	
+	private JToggleButton point;
 	
 	private JMenuItem open;
 	
@@ -24,6 +30,10 @@ public class Barre extends JMenuBar{
 		fichier = new JMenu("Fichier");
 		options = new JMenu("Options");
 		
+		point = new JToggleButton();
+		point.setIcon(new ImageIcon("res/point.png"));
+		point.setMargin(new Insets(0,0,0,0));
+		
 		open = new JMenuItem("Ouvrir");
 		save = new JMenuItem("Enregistrer");
 		exit = new JMenuItem("Quitter");
@@ -34,5 +44,6 @@ public class Barre extends JMenuBar{
 		
 		this.add(fichier);
 		this.add(options);
+		this.add(point);
 	}
 }

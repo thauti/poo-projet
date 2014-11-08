@@ -1,3 +1,5 @@
+import java.awt.Graphics;
+
 
 public class Ligne extends Forme {
 	private Point point1;
@@ -9,6 +11,7 @@ public class Ligne extends Forme {
 	}
 	public Ligne(int p1_x, int p1_y, int p2_x, int p2_y)
 	{
+		System.out.println("hello");
 		point1 = new Point(p1_x, p1_y);
 		point2 = new Point(p2_x, p2_y);
 	}
@@ -27,5 +30,8 @@ public class Ligne extends Forme {
 		point2.setX(x);
 		point2.setY(y);
 	}
-	
+	public void afficher(Graphics g)
+	{
+		g.drawLine(point1.getX(), point1.getY(), point2.getX(), point2.getY());
+	}
 }
