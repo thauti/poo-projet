@@ -5,6 +5,8 @@ public class Ligne extends Forme {
 	private Point point1;
 	private Point point2;
 	
+	public boolean afficherPoint = false;
+	
 	public Ligne()
 	{
 	
@@ -32,6 +34,15 @@ public class Ligne extends Forme {
 	}
 	public void afficher(Graphics g)
 	{
+		if(afficherPoint)
+		{
+			point1.afficher(g);
+			point2.afficher(g);
+		}
 		g.drawLine(point1.getX(), point1.getY(), point2.getX(), point2.getY());
+	}
+	public void afficherPoint(boolean a)
+	{
+		this.afficherPoint = a;
 	}
 }

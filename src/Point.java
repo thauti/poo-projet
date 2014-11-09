@@ -1,5 +1,7 @@
+import java.awt.Graphics;
 
-public class Point {
+
+public class Point extends Forme{
 	private int x;
 	
 	private int y;
@@ -29,5 +31,9 @@ public class Point {
 	public void setY(int y)
 	{
 		this.y = y;
+	}
+	public void afficher(Graphics g)
+	{
+		g.fillOval(this.x-4, this.y-4, 8, 8);
 	}
 }

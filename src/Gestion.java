@@ -7,17 +7,19 @@ public class Gestion {
 	
 	private ArrayList<Forme> figure;
 	
-	private Color c;
+	private Color c = Color.BLACK;
+	
+	private boolean afficherPoint = true;
 	
 	public enum Mode{
-		LIGNE, CARRE, RECTANGLE
+		POINT, LIGNE, CARRE, RECTANGLE
 	}
 	
 	public Mode mode;
 	public Gestion()
 	{
 		this.c = Color.BLACK;
-		mode = Mode.LIGNE;
+		mode = Mode.POINT;
 		figure = new ArrayList<Forme>();
 	}
 	public void setColor(Color c)
@@ -35,7 +37,15 @@ public class Gestion {
 	{
 		for(int i =0; i<figure.size();i++)
 		{
+			if(afficherPoint)
+			{
+				figure.get(i).afficherPoint(afficherPoint);;
+			}
 			figure.get(i).afficher(g);
 		}
+	}
+	public Color getCouleur()
+	{
+		return this.c;
 	}
 }
