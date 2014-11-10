@@ -22,6 +22,11 @@ public class Ligne extends Forme {
 		point1 = p1;
 		point2 = p2;
 	}
+	public Ligne(Point p1, int x, int y)
+	{
+		point1 = p1;
+		point2 = new Point(x, y);
+	}
 	public void setP1(int x,int y)
 	{
 		point1.setX(x);
@@ -32,6 +37,14 @@ public class Ligne extends Forme {
 		point2.setX(x);
 		point2.setY(y);
 	}
+	public Point getP1()
+	{
+		return point1;
+	}
+	public Point getP2()
+	{
+		return point2;
+	}
 	public void afficher(Graphics g)
 	{
 		if(afficherPoint)
@@ -39,7 +52,7 @@ public class Ligne extends Forme {
 			point1.afficher(g);
 			point2.afficher(g);
 		}
-		g.drawLine(point1.getX(), point1.getY(), point2.getX(), point2.getY());
+		g.drawLine(point1.getX()+x, point1.getY()+y, point2.getX()+x, point2.getY()+y);
 	}
 	public void afficherPoint(boolean a)
 	{

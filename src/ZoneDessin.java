@@ -66,7 +66,35 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 			{
 			case LIGNE:
 				System.out.println(g.mode);
-				g.ajouter(new Ligne(orgx, orgy, e.getX(), e.getY()));
+				if(this.g.isclicSurPoint(orgx, orgy))
+				{
+					System.out.println("Oui");
+					Point p = this.g.getclicSurPoint(orgx, orgy);
+					if(p != null)
+					{
+						if(this.g.isclicSurPoint(e.getX(), e.getY()))
+						{
+							Point p2 = this.g.getclicSurPoint(e.getX(), e.getY());
+							Ligne l = new Ligne(p, p2);
+							g.ajouter(l);
+						}
+						else
+						{
+							Ligne l = new Ligne(p, e.getX(), e.getY());
+							g.ajouter(l);
+							g.ajouter(l.getP2());
+						}
+
+						
+					}
+				}
+				else
+				{
+					Ligne l = new Ligne(orgx, orgy, e.getX(), e.getY());
+					g.ajouter(l);
+					g.ajouter(l.getP1());
+					g.ajouter(l.getP2());
+				}
 				break;
 			}
 

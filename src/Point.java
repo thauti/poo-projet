@@ -34,6 +34,6 @@ public class Point extends Forme{
 	}
 	public void afficher(Graphics g)
 	{
-		g.fillOval(this.x-4, this.y-4, 8, 8);
+		g.drawOval(this.x-4+super.x, this.y-4+super.y, 8, 8);
 	}
 }
