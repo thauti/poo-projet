@@ -1,14 +1,18 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.MouseInfo;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 
-public class ZoneDessin extends JPanel implements MouseListener, MouseMotionListener{
+public class ZoneDessin extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener{
 
 	private int cursor_x;
 	private int cursor_y;
@@ -29,9 +33,12 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 		this.g = f.getGestion();
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
+		this.addMouseWheelListener(this);
 	}
 	public void paintComponent(Graphics g)
 	{
+		Graphics2D g2 = ((Graphics2D) g);
+		g2.scale(this.g.getZoomX(), this.g.getZoomY());
 		super.paintComponent(g);
 		this.g.afficher(g);
 		if(enCreation != null)
@@ -41,21 +48,25 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
+
+		int x = (int) (e.getPoint().x / g.getZoomX());
+		int y = (int) (e.getPoint().y / g.getZoomY());
+		
 		if(!enCours)
 		{
 			enCours = true;
 			switch(g.mode)
 			{
 			case POINT:
-				enCreation = new Point(e.getX(), e.getY());
+				enCreation = new Point(x, y);
 				g.ajouter(enCreation);
 				enCours = false;
 				enCreation = null;
 				break;
 			case LIGNE:
-				enCreation = new Ligne(e.getX(), e.getY(),e.getX(),e.getY());
-				orgx = e.getX();
-				orgy = e.getY();
+				enCreation = new Ligne(x, y,x,y);
+				orgx = x;
+				orgy = y;
 				break;
 			}
 			
@@ -72,15 +83,15 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 					Point p = this.g.getclicSurPoint(orgx, orgy);
 					if(p != null)
 					{
-						if(this.g.isclicSurPoint(e.getX(), e.getY()))
+						if(this.g.isclicSurPoint(x, y))
 						{
-							Point p2 = this.g.getclicSurPoint(e.getX(), e.getY());
+							Point p2 = this.g.getclicSurPoint(x, y);
 							Ligne l = new Ligne(p, p2);
 							g.ajouter(l);
 						}
 						else
 						{
-							Ligne l = new Ligne(p, e.getX(), e.getY());
+							Ligne l = new Ligne(p, x, y);
 							g.ajouter(l);
 							g.ajouter(l.getP2());
 						}
@@ -90,7 +101,7 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 				}
 				else
 				{
-					Ligne l = new Ligne(orgx, orgy, e.getX(), e.getY());
+					Ligne l = new Ligne(orgx, orgy, x, y);
 					g.ajouter(l);
 					g.ajouter(l.getP1());
 					g.ajouter(l.getP2());
@@ -129,17 +140,34 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		// TODO Auto-generated method stub
+		int x = (int) (e.getPoint().x / g.getZoomX());
+		int y = (int) (e.getPoint().y / g.getZoomY());
 		if(enCreation != null)
 		{
 			switch(g.mode)
 			{
 
 			case LIGNE:
-				((Ligne)enCreation).setP2(e.getX(),e.getY());
+				((Ligne)enCreation).setP2(x,y);
 				break;
 			}
 			this.repaint();
 			
 		}
+	}
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent arg0) {
+		if(arg0.getWheelRotation() < 0)
+		{
+			g.addZoom(0.1, 0.1);
+			this.repaint();
+		}
+		if(arg0.getWheelRotation() > 0)
+		{
+			g.addZoom(-0.1, -0.1);
+			this.repaint();
+		}
+			
+		
 	}
 }

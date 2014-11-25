@@ -11,6 +11,9 @@ public class Gestion {
 	
 	private boolean afficherPoint = true;
 	
+	private double zoom_x = 1.0;
+	private double zoom_y = 1.0;
+	
 	public enum Mode{
 		POINT, LIGNE, CARRE, RECTANGLE
 	}
@@ -78,5 +81,18 @@ public class Gestion {
 	public Color getCouleur()
 	{
 		return this.c;
+	}
+	public double getZoomX()
+	{
+		return this.zoom_x;
+	}
+	public double getZoomY()
+	{
+		return this.zoom_y;
+	}
+	public void addZoom(double i, double j)
+	{
+		this.zoom_x += i;
+		this.zoom_y += j;
 	}
 }
