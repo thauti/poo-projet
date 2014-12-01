@@ -92,6 +92,7 @@ public class Gestion {
 	}
 	public void addZoom(double i, double j)
 	{
+		System.out.println(this.zoom_x);
 		this.zoom_x += i;
 		this.zoom_y += j;
 	}

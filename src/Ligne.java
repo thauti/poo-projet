@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 
 
@@ -13,7 +14,7 @@ public class Ligne extends Forme {
 	}
 	public Ligne(int p1_x, int p1_y, int p2_x, int p2_y)
 	{
-		System.out.println("hello");
+
 		point1 = new Point(p1_x, p1_y);
 		point2 = new Point(p2_x, p2_y);
 	}
@@ -52,7 +53,9 @@ public class Ligne extends Forme {
 			point1.afficher(g);
 			point2.afficher(g);
 		}
+		g.setColor(this.c);
 		g.drawLine(point1.getX()+x, point1.getY()+y, point2.getX()+x, point2.getY()+y);
+		g.setColor(Color.black);
 	}
 	public void afficherPoint(boolean a)
 	{

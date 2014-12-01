@@ -76,7 +76,7 @@ public class Barre extends JMenuBar implements ActionListener{
 		Object o = e.getSource();
 		if(o == couleur)
 		{
-			ColorPicker cp = new ColorPicker(fenetre);
+			ColorPicker cp = new ColorPicker(fenetre, couleur);
 		}
 		if(o == point)
 		{

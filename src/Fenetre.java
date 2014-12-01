@@ -1,7 +1,10 @@
 
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JScrollPane;
 
 
 public class Fenetre extends JFrame{
@@ -10,6 +13,8 @@ public class Fenetre extends JFrame{
 	private Gestion gestion;
 	
 	private ZoneDessin zonedessin;
+
+	private JScrollPane scrollpan;
 	
 	public Fenetre(Gestion gest)
 	{
@@ -20,13 +25,22 @@ public class Fenetre extends JFrame{
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		initFenetre();
 		this.setVisible(true);
+		
 	}
 	private void initFenetre()
 	{
 		menu_bar = new Barre(this);
 		this.setJMenuBar(menu_bar);
 		this.zonedessin = new ZoneDessin(this);
-		this.add(zonedessin);
+		this.zonedessin.setPreferredSize(new Dimension(3000,3000));
+	//	this.add(zonedessin);
+		this.scrollpan = new JScrollPane(zonedessin);
+		scrollpan.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollpan.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollpan.add(zonedessin);
+        scrollpan.setViewportView(zonedessin);
+
+        this.add(scrollpan);
 	}
 	public Gestion getGestion()
 	{
