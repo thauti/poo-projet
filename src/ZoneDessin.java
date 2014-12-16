@@ -1,8 +1,10 @@
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.MouseInfo;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -11,6 +13,8 @@ import java.awt.event.MouseWheelListener;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.Scrollable;
+import javax.swing.ViewportLayout;
 
 
 public class ZoneDessin extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener{
@@ -31,6 +35,7 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 	{
 		super();
 		this.setBackground(Color.WHITE);
+
 		this.f = fen;
 		this.g = f.getGestion();
 		this.addMouseListener(this);
@@ -44,6 +49,7 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 		Graphics2D g2 = ((Graphics2D) g);
 		g2.scale(this.g.getZoomX(), this.g.getZoomY());
 		super.paintComponent(g);
+		this.f.scrollpan.repaint();
 		this.g.afficher(g);
 		if(enCreation != null)
 		{
@@ -172,11 +178,11 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 		}
 		if(arg0.getWheelRotation() > 0)
 		{
-			g.addZoom(-0.05, -0.05);
-			
-			this.repaint();
+			if(g.getZoomX() > 0.19)
+				g.addZoom(-0.05, -0.05);
 		}
 			
 		
 	}
+
 }

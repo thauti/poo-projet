@@ -3,10 +3,14 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 
 
@@ -56,7 +60,8 @@ public class Barre extends JMenuBar implements ActionListener{
 		couleur.addActionListener(this);
 		
 		open = new JMenuItem("Ouvrir");
-		save = new JMenuItem("Enregistrer");
+		save = new JMenuItem("Exporter en SVG ...");
+		save.addActionListener(this);
 		exit = new JMenuItem("Quitter");
 		
 		fichier.add(open);
@@ -90,6 +95,37 @@ public class Barre extends JMenuBar implements ActionListener{
 			if(ligne.isSelected())
 				this.fenetre.getGestion().mode = this.fenetre.getGestion().mode.LIGNE;
 				point.setSelected(false);
+			
+		}
+		if(o == save)
+		{
+
+			System.out.println(ExportSVG.toSVG(this.fenetre.getGestion().getFigure()));
+			JFileChooser filechooser = new JFileChooser();
+			filechooser.setDialogTitle("Exporter en SVG ...");
+			filechooser.setAcceptAllFileFilterUsed(false);
+			filechooser.setFileFilter(new FileNameExtensionFilter("Scalable Vector Graphics (.svg)", "svg"));
+			int a = filechooser.showSaveDialog(fenetre);
+			if (a == JFileChooser.APPROVE_OPTION) {
+			    File fichier = filechooser.getSelectedFile();
+			    try {
+			    	FileWriter fichiersave = null;
+			    	if(fichier.getAbsolutePath().endsWith(".svg"))
+			    	{
+			    		fichiersave = new FileWriter(filechooser.getSelectedFile());
+			    	}
+			    	else
+			    	{
+			    		fichiersave = new FileWriter(filechooser.getSelectedFile()+".svg");
+			    	}
+					fichiersave.write(fenetre.getGestion().toSVG());
+					fichiersave.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			    System.out.println("Save as file: " +fichier.getAbsolutePath()+".svg");
+			}
 			
 		}
 		

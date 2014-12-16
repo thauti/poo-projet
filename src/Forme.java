@@ -24,4 +24,9 @@ public class Forme {
 	{
 		this.c = e;
 	}
+	public String toSVG()
+	{
+		return "";
+		
+	}
 }

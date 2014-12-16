@@ -61,4 +61,12 @@ public class Ligne extends Forme {
 	{
 		this.afficherPoint = a;
 	}
+	public String toSVG()
+	{
+
+		return "<line x1='"+point1.getX()+"' y1='"+point1.getY()+"'"
+				+ 				" x2 ='"+point2.getX()+"' y2='"+point2.getY()+"'"
+									+ " stroke='black' />";
+		
+	}
 }

@@ -96,4 +96,12 @@ public class Gestion {
 		this.zoom_x += i;
 		this.zoom_y += j;
 	}
+	public ArrayList<Forme> getFigure()
+	{
+		return this.figure;
+	}
+	public String toSVG()
+	{
+		return ExportSVG.toSVG(figure);
+	}
 }

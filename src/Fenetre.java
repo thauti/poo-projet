@@ -14,7 +14,7 @@ public class Fenetre extends JFrame{
 	
 	private ZoneDessin zonedessin;
 
-	private JScrollPane scrollpan;
+	public JScrollPane scrollpan;
 	
 	public Fenetre(Gestion gest)
 	{
@@ -32,7 +32,7 @@ public class Fenetre extends JFrame{
 		menu_bar = new Barre(this);
 		this.setJMenuBar(menu_bar);
 		this.zonedessin = new ZoneDessin(this);
-		this.zonedessin.setPreferredSize(new Dimension(3000,3000));
+		this.zonedessin.setPreferredSize(new Dimension(5000,5000));
 	//	this.add(zonedessin);
 		this.scrollpan = new JScrollPane(zonedessin);
 		scrollpan.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
