@@ -29,9 +29,12 @@ public class ColorPicker extends JDialog implements ChangeListener, ActionListen
 	    JButton ok;
 	    JButton annuler;
 	   
-	    /*Constructeur qui ca creer la fenetre et ses composants*/
+	   
 	 
 	    public ColorPicker(Fenetre fen, JButton b){
+	    	/**
+	    	 * Constructeur du Nuancer
+	    	 */
 	        /*Specificité de la fenetre*/
 	        this.setTitle("Couleur");
 	        this.setSize(500, 300);

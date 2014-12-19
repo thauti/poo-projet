@@ -104,4 +104,16 @@ public class Gestion {
 	{
 		return ExportSVG.toSVG(figure);
 	}
+	public void chargerArray(Object a)
+	{
+		try
+		{
+		this.figure = (ArrayList<Forme>) a;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			System.out.println("Erreur à l'ouverture du fichier");
+		}
+	}
 }

@@ -3,6 +3,8 @@ import java.awt.Graphics;
 
 
 public class Ligne extends Forme {
+
+	private static final long serialVersionUID = 8994121535219948345L;
 	private Point point1;
 	private Point point2;
 	

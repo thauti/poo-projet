@@ -1,8 +1,11 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 
 
-public class Forme {
+public class Forme implements Serializable{
+
+	private static final long serialVersionUID = 4088339238779728407L;
 	public boolean afficherPoint = false;
 	int x, y;
 	public Color c;

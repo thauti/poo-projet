@@ -2,6 +2,9 @@ import java.awt.Graphics;
 
 
 public class Point extends Forme{
+
+	private static final long serialVersionUID = 3147055707617939538L;
+
 	private int x;
 	
 	private int y;

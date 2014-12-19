@@ -4,8 +4,13 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -28,11 +33,15 @@ public class Barre extends JMenuBar implements ActionListener{
 	
 	private JButton couleur;
 	
+	private JMenuItem nouveau;
+	
 	private JMenuItem open;
 	
 	private JMenuItem save;
 	
 	private JMenuItem exit;
+	
+	private JMenuItem save2;
 	
 	public Barre(Fenetre fen)
 	{
@@ -58,13 +67,19 @@ public class Barre extends JMenuBar implements ActionListener{
 		couleur.setBackground(fen.getGestion().getCouleur());
 		couleur.setMargin(new Insets(10,10,10,10));
 		couleur.addActionListener(this);
-		
+		nouveau = new JMenuItem("Nouveau");
+		nouveau.addActionListener(this);
 		open = new JMenuItem("Ouvrir");
+		open.addActionListener(this);
+		save2 = new JMenuItem("Enregistrer");
+		save2.addActionListener(this);
 		save = new JMenuItem("Exporter en SVG ...");
 		save.addActionListener(this);
 		exit = new JMenuItem("Quitter");
 		
+		fichier.add(nouveau);
 		fichier.add(open);
+		fichier.add(save2);
 		fichier.add(save);
 		fichier.add(exit);
 		
@@ -88,6 +103,12 @@ public class Barre extends JMenuBar implements ActionListener{
 			if(point.isSelected())
 				this.fenetre.getGestion().mode = this.fenetre.getGestion().mode.POINT;
 				ligne.setSelected(false);
+			
+		}
+		if(o == nouveau)
+		{
+			fenetre.getGestion().getFigure().clear();
+			fenetre.repaint();
 			
 		}
 		if(o == ligne)
@@ -127,6 +148,49 @@ public class Barre extends JMenuBar implements ActionListener{
 			    System.out.println("Save as file: " +fichier.getAbsolutePath()+".svg");
 			}
 			
+		}
+		if(o == save2)
+		{
+			JFileChooser filechooser = new JFileChooser();
+			filechooser.setDialogTitle("Enregistrer");
+			int a = filechooser.showSaveDialog(fenetre);
+			if (a == JFileChooser.APPROVE_OPTION) {
+				File fichier = filechooser.getSelectedFile();
+				try {
+					FileOutputStream fos = new FileOutputStream(fichier.getAbsolutePath());
+					ObjectOutputStream oos= new ObjectOutputStream(fos);
+					oos.writeObject(this.fenetre.getGestion().getFigure());
+					oos.close();
+					fos.close();
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					
+					e1.printStackTrace();
+				}
+			}
+		}
+		if(o == open)
+		{
+			
+			JFileChooser filechooser = new JFileChooser();
+			filechooser.setDialogTitle("Ouvrir");
+			int a = filechooser.showOpenDialog(fenetre);
+			if (a == JFileChooser.APPROVE_OPTION) {
+				File fichier = filechooser.getSelectedFile();
+				try {
+					FileInputStream fis = new FileInputStream(fichier.getAbsolutePath());
+					ObjectInputStream ois = new ObjectInputStream(fis);
+					fenetre.getGestion().getFigure().clear();
+					fenetre.getGestion().chargerArray(ois.readObject());
+					ois.close();
+					fis.close();
+				} catch (IOException e1) {
+					System.out.println("Erreur à l'ouverture du fichier");
+				} catch (ClassNotFoundException e1) {
+					System.out.println("Erreur à l'ouverture du fichier");
+				}
+			}
 		}
 		
 	}
