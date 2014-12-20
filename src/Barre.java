@@ -31,6 +31,8 @@ public class Barre extends JMenuBar implements ActionListener{
 	
 	private JToggleButton ligne;
 	
+	private JToggleButton droite;
+	
 	private JButton couleur;
 	
 	private JMenuItem nouveau;
@@ -45,6 +47,10 @@ public class Barre extends JMenuBar implements ActionListener{
 	
 	public Barre(Fenetre fen)
 	{
+		/**
+		 * Constructeur de la barre
+		 * @param fen 
+		 */
 		this.fenetre = fen;
 		
 		fichier = new JMenu("Fichier");
@@ -58,10 +64,16 @@ public class Barre extends JMenuBar implements ActionListener{
 		point.setSelected(true);
 		
 		ligne = new JToggleButton();
-		ligne.setIcon(new ImageIcon("res/ligne.png"));
+		ligne.setIcon(new ImageIcon("res/segment.png"));
 		ligne.setMargin(new Insets(0,0,0,0));
 		ligne.setPreferredSize(new Dimension(10,10));
 		ligne.addActionListener(this);
+		
+		droite = new JToggleButton();
+		droite.setIcon(new ImageIcon("res/ligne.png"));
+		droite.setMargin(new Insets(0,0,0,0));
+		droite.setPreferredSize(new Dimension(10,10));
+		droite.addActionListener(this);
 		
 		couleur = new JButton();
 		couleur.setBackground(fen.getGestion().getCouleur());
@@ -87,6 +99,7 @@ public class Barre extends JMenuBar implements ActionListener{
 		this.add(options);
 		this.add(point);
 		this.add(ligne);
+		this.add(droite);
 		this.add(couleur);
 
 	}
@@ -103,6 +116,7 @@ public class Barre extends JMenuBar implements ActionListener{
 			if(point.isSelected())
 				this.fenetre.getGestion().mode = this.fenetre.getGestion().mode.POINT;
 				ligne.setSelected(false);
+				droite.setSelected(false);
 			
 		}
 		if(o == nouveau)
@@ -116,6 +130,14 @@ public class Barre extends JMenuBar implements ActionListener{
 			if(ligne.isSelected())
 				this.fenetre.getGestion().mode = this.fenetre.getGestion().mode.LIGNE;
 				point.setSelected(false);
+				droite.setSelected(false);
+		}
+		if(o == droite)
+		{
+			if(droite.isSelected())
+				this.fenetre.getGestion().mode = this.fenetre.getGestion().mode.DROITE;
+				point.setSelected(false);
+				ligne.setSelected(false);
 			
 		}
 		if(o == save)

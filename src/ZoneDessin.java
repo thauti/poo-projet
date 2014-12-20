@@ -79,6 +79,13 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 				orgx = x;
 				orgy = y;
 				break;
+			case DROITE:
+				enCreation = new Droite();
+				enCreation.setColor(g.getCouleur());
+				orgx = x;
+				orgy = y;
+				((Droite) enCreation).setOrg(orgx, orgy);
+				break;
 			}
 			
 		}
@@ -121,6 +128,12 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 					g.ajouter(l.getP2());
 				}
 				break;
+			case DROITE:
+				Droite d = new Droite();
+				d.setOrg(orgx, orgy);
+				d.setOrg2(x, y);
+				g.ajouter(d);
+				break;
 			}
 
 			enCours = false;
@@ -156,6 +169,8 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 		// TODO Auto-generated method stub
 		int x = (int) (e.getPoint().x / g.getZoomX());
 		int y = (int) (e.getPoint().y / g.getZoomY());
+		double xprecis =  e.getPoint().x / g.getZoomX();
+		double yprecis = e.getPoint().y / g.getZoomY();
 		if(enCreation != null)
 		{
 			switch(g.mode)
@@ -163,6 +178,9 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 
 			case LIGNE:
 				((Ligne)enCreation).setP2(x,y);
+				break;
+			case DROITE:
+				((Droite) enCreation).setOrg2(xprecis, yprecis);
 				break;
 			}
 			this.repaint();

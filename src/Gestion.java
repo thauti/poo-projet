@@ -7,6 +7,8 @@ public class Gestion {
 	
 	private ArrayList<Forme> figure;
 	
+	private ArrayList<Forme> selection;
+	
 	private Color c = Color.BLACK;
 	
 	private boolean afficherPoint = true;
@@ -15,7 +17,7 @@ public class Gestion {
 	private double zoom_y = 1.0;
 	
 	public enum Mode{
-		POINT, LIGNE, CARRE, RECTANGLE
+		POINT, LIGNE, DROITE, CARRE, RECTANGLE
 	}
 	
 	public Mode mode;
