@@ -46,5 +46,9 @@ public class Fenetre extends JFrame{
 	{
 		return this.gestion;
 	}
+	public Barre getBarre()
+	{
+		return menu_bar;
+	}
 
 }

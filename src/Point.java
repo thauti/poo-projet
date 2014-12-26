@@ -37,6 +37,7 @@ public class Point extends Forme{
 	}
 	public void afficher(Graphics g)
 	{
+		g.setColor(this.c);
 		g.drawOval(this.x-4+super.x, this.y-4+super.y, 8, 8);
 	}
 	public String toSVG()

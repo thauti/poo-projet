@@ -34,6 +34,7 @@ public class Droite extends Forme implements Serializable {
 		this.org2y = yprecis;
 	}
 	public void afficher(Graphics g) {
+		g.setColor(c);
 		if(org2x - orgx != 0)
 		{
 			m = (org2y - orgy)/(org2x - orgx);
@@ -41,8 +42,8 @@ public class Droite extends Forme implements Serializable {
 			
 			int y1 = (int) (0*m + p);
 			int y2 = (int) (5000*m +p);
-			
 			g.drawLine(0, y1, 5000, y2);
+
 		}
 		else
 		{

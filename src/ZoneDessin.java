@@ -22,6 +22,7 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 	private int cursor_x;
 	private int cursor_y;
 	
+
 	private boolean enCours;
 	private Forme enCreation = null;
 	private Gestion g;
@@ -51,6 +52,7 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 		super.paintComponent(g);
 		this.f.scrollpan.repaint();
 		this.g.afficher(g);
+
 		if(enCreation != null)
 		{
 			enCreation.afficher(g);
@@ -58,7 +60,7 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
-
+		System.out.println("Hello");
 		int x = (int) (e.getPoint().x / g.getZoomX());
 		int y = (int) (e.getPoint().y / g.getZoomY());
 		
@@ -86,6 +88,42 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 				orgy = y;
 				((Droite) enCreation).setOrg(orgx, orgy);
 				break;
+			case SELECTION:
+				enCours = false;
+				if(g.isclicSurPoint(x, y))
+				{
+					if(!this.g.getSelection().contains(g.getclicSurPoint(x, y)))
+					{
+						
+						g.getclicSurPoint(x, y).setColor(Color.RED);
+						this.g.addSelection(g.getclicSurPoint(x, y));
+						this.repaint();
+					}
+					else
+					{
+						g.getclicSurPoint(x, y).setColor(this.g.getCouleur());
+						this.g.getSelection().remove(g.getclicSurPoint(x, y));
+						this.repaint();
+						
+					}
+				}
+				else
+				{
+					
+					for(Forme a: this.g.getSelection())
+						if(a instanceof Point)
+							a.setColor(Color.BLACK);
+					this.g.getSelection().clear();
+					this.repaint();
+				}
+				break;
+			case MOUVEMENT:
+				enCours = false;
+				if(this.g.enMouvement)
+					this.g.enMouvement = false;
+					this.f.getBarre().desactiverMouvement();
+					this.repaint();
+				break;
 			}
 			
 		}
@@ -94,10 +132,10 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 			switch(g.mode)
 			{
 			case LIGNE:
-				System.out.println(g.mode);
+				
 				if(this.g.isclicSurPoint(orgx, orgy))
 				{
-					System.out.println("Oui");
+					
 					Point p = this.g.getclicSurPoint(orgx, orgy);
 					if(p != null)
 					{
@@ -129,10 +167,31 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 				}
 				break;
 			case DROITE:
-				Droite d = new Droite();
-				d.setOrg(orgx, orgy);
-				d.setOrg2(x, y);
-				g.ajouter(d);
+				if(this.g.isclicSurPoint(orgx, orgy))
+				{
+					Droite d = new Droite();
+					Point p = this.g.getclicSurPoint(orgx, orgy);
+					if(p != null)
+					{
+						d.setOrg(p.getX(), p.getY());
+						if(this.g.isclicSurPoint(x, y))
+						{
+							Point p2 = this.g.getclicSurPoint(x, y);
+							d.setOrg2(p2.getX(), p2.getY());
+							
+						}
+					}
+					d.setColor(g.getCouleur());
+					g.ajouter(d);
+				}
+				else
+				{
+					Droite d = new Droite();
+					d.setOrg(orgx, orgy);
+					d.setOrg2(x, y);
+					d.setColor(g.getCouleur());
+					g.ajouter(d);
+				}
 				break;
 			}
 
@@ -171,6 +230,13 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 		int y = (int) (e.getPoint().y / g.getZoomY());
 		double xprecis =  e.getPoint().x / g.getZoomX();
 		double yprecis = e.getPoint().y / g.getZoomY();
+		if(this.g.enMouvement){
+			if(g.mode == g.mode.MOUVEMENT)
+			{
+				g.mouvement(x, y);
+				this.repaint();
+			}
+		}
 		if(enCreation != null)
 		{
 			switch(g.mode)
@@ -178,12 +244,13 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 
 			case LIGNE:
 				((Ligne)enCreation).setP2(x,y);
+				this.repaint();
 				break;
 			case DROITE:
 				((Droite) enCreation).setOrg2(xprecis, yprecis);
+				this.repaint();
 				break;
 			}
-			this.repaint();
 			
 		}
 	}

@@ -53,27 +53,27 @@ public class ColorPicker extends JDialog implements ChangeListener, ActionListen
 	        rouge.setPaintTicks(true);
 	        rouge.setPaintLabels(true);
 	        rouge.setMinorTickSpacing(10);
-	        rouge.setMajorTickSpacing(51);
+	        rouge.setMajorTickSpacing(100);
 	        rouge.setBorder(BorderFactory.createTitledBorder("Rouge"));
-	 
+	        rouge.setValue(fen.getGestion().getCouleur().getRed());
 	        vert = new JSlider();
 	        vert.setMaximum(255);
 	        vert.setMinimum(0);
 	        vert.setPaintTicks(true);
 	        vert.setPaintLabels(true);
-	        vert.setMinorTickSpacing(100);
-	        vert.setMajorTickSpacing(51);
+	        vert.setMinorTickSpacing(10);
+	        vert.setMajorTickSpacing(100);
 	        vert.setBorder(BorderFactory.createTitledBorder("Vert"));
-	 
+	        vert.setValue(fen.getGestion().getCouleur().getGreen());
 	        bleu = new JSlider();
 	        bleu.setMaximum(255);
 	        bleu.setMinimum(0);
 	        bleu.setPaintTicks(true);
 	        bleu.setPaintLabels(true);
 	        bleu.setMinorTickSpacing(10);
-	        bleu.setMajorTickSpacing(51);
+	        bleu.setMajorTickSpacing(100);
 	        bleu.setBorder(BorderFactory.createTitledBorder("Bleu"));
-	       
+	        bleu.setValue(fen.getGestion().getCouleur().getBlue());
 	        /*Creation de la partie "gauche" de la palette*/
 	        JPanel panneauChoix = new JPanel();
 	        this.getContentPane().add(panneauChoix);

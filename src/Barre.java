@@ -33,6 +33,10 @@ public class Barre extends JMenuBar implements ActionListener{
 	
 	private JToggleButton droite;
 	
+	private JToggleButton selection;
+	
+	private JToggleButton bouger;
+	
 	private JButton couleur;
 	
 	private JMenuItem nouveau;
@@ -75,6 +79,19 @@ public class Barre extends JMenuBar implements ActionListener{
 		droite.setPreferredSize(new Dimension(10,10));
 		droite.addActionListener(this);
 		
+		selection = new JToggleButton();
+		selection.setIcon(new ImageIcon("res/selection.png"));
+		selection.setMargin(new Insets(0,0,0,0));
+		selection.setPreferredSize(new Dimension(10,10));
+		selection.addActionListener(this);
+		
+		bouger = new JToggleButton();
+		bouger.setIcon(new ImageIcon("res/bouger.png"));
+		bouger.setMargin(new Insets(0,0,0,0));
+		bouger.setPreferredSize(new Dimension(10,10));
+		bouger.addActionListener(this);
+		bouger.setEnabled(false);
+		
 		couleur = new JButton();
 		couleur.setBackground(fen.getGestion().getCouleur());
 		couleur.setMargin(new Insets(10,10,10,10));
@@ -100,10 +117,14 @@ public class Barre extends JMenuBar implements ActionListener{
 		this.add(point);
 		this.add(ligne);
 		this.add(droite);
+		this.add(selection);
+		this.add(bouger);
 		this.add(couleur);
-
 	}
-
+	public void desactiverMouvement()
+	{
+		this.bouger.setSelected(false);
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
@@ -117,12 +138,15 @@ public class Barre extends JMenuBar implements ActionListener{
 				this.fenetre.getGestion().mode = this.fenetre.getGestion().mode.POINT;
 				ligne.setSelected(false);
 				droite.setSelected(false);
+				selection.setSelected(false);
+				bouger.setEnabled(false);
 			
 		}
 		if(o == nouveau)
 		{
 			fenetre.getGestion().getFigure().clear();
 			fenetre.repaint();
+			
 			
 		}
 		if(o == ligne)
@@ -131,6 +155,8 @@ public class Barre extends JMenuBar implements ActionListener{
 				this.fenetre.getGestion().mode = this.fenetre.getGestion().mode.LIGNE;
 				point.setSelected(false);
 				droite.setSelected(false);
+				selection.setSelected(false);
+				bouger.setEnabled(false);
 		}
 		if(o == droite)
 		{
@@ -138,6 +164,25 @@ public class Barre extends JMenuBar implements ActionListener{
 				this.fenetre.getGestion().mode = this.fenetre.getGestion().mode.DROITE;
 				point.setSelected(false);
 				ligne.setSelected(false);
+				selection.setSelected(false);
+				bouger.setEnabled(false);
+		}
+		if(o == selection)
+		{
+			if(selection.isSelected())
+				this.fenetre.getGestion().mode = this.fenetre.getGestion().mode.SELECTION;
+				point.setSelected(false);
+				ligne.setSelected(false);
+				droite.setSelected(false);
+				bouger.setEnabled(true);
+			
+		}
+		if(o == bouger)
+		{
+			
+			if(selection.isSelected())
+				this.fenetre.getGestion().mode = this.fenetre.getGestion().mode.MOUVEMENT;
+				this.fenetre.getGestion().enMouvement = true;
 			
 		}
 		if(o == save)
