@@ -29,11 +29,15 @@ public class Barre extends JMenuBar implements ActionListener{
 	
 	private JToggleButton point;
 	
+	private JToggleButton delete;
+	
 	private JToggleButton ligne;
 	
 	private JToggleButton droite;
 	
 	private JToggleButton selection;
+	
+	private JMenuItem barycentre;
 	
 	private JToggleButton bouger;
 	
@@ -79,6 +83,12 @@ public class Barre extends JMenuBar implements ActionListener{
 		droite.setPreferredSize(new Dimension(10,10));
 		droite.addActionListener(this);
 		
+		delete = new JToggleButton();
+		delete.setIcon(new ImageIcon("res/delete.png"));
+		delete.setMargin(new Insets(0,0,0,0));
+		delete.setPreferredSize(new Dimension(10,10));
+		delete.addActionListener(this);
+		
 		selection = new JToggleButton();
 		selection.setIcon(new ImageIcon("res/selection.png"));
 		selection.setMargin(new Insets(0,0,0,0));
@@ -91,6 +101,7 @@ public class Barre extends JMenuBar implements ActionListener{
 		bouger.setPreferredSize(new Dimension(10,10));
 		bouger.addActionListener(this);
 		bouger.setEnabled(false);
+		
 		
 		couleur = new JButton();
 		couleur.setBackground(fen.getGestion().getCouleur());
@@ -106,19 +117,25 @@ public class Barre extends JMenuBar implements ActionListener{
 		save.addActionListener(this);
 		exit = new JMenuItem("Quitter");
 		
+		barycentre = new JMenuItem("Calculer le barycentre");
+		barycentre.addActionListener(this);
+		
 		fichier.add(nouveau);
 		fichier.add(open);
 		fichier.add(save2);
 		fichier.add(save);
 		fichier.add(exit);
 		
+		options.add(barycentre);
+		
 		this.add(fichier);
 		this.add(options);
 		this.add(point);
 		this.add(ligne);
 		this.add(droite);
+		this.add(delete);
 		this.add(selection);
-		this.add(bouger);
+		this.add(bouger);;
 		this.add(couleur);
 	}
 	public void desactiverMouvement()
@@ -140,7 +157,7 @@ public class Barre extends JMenuBar implements ActionListener{
 				droite.setSelected(false);
 				selection.setSelected(false);
 				bouger.setEnabled(false);
-			
+				delete.setSelected(false);
 		}
 		if(o == nouveau)
 		{
@@ -157,6 +174,7 @@ public class Barre extends JMenuBar implements ActionListener{
 				droite.setSelected(false);
 				selection.setSelected(false);
 				bouger.setEnabled(false);
+				delete.setSelected(false);
 		}
 		if(o == droite)
 		{
@@ -166,6 +184,7 @@ public class Barre extends JMenuBar implements ActionListener{
 				ligne.setSelected(false);
 				selection.setSelected(false);
 				bouger.setEnabled(false);
+				delete.setSelected(false);
 		}
 		if(o == selection)
 		{
@@ -175,7 +194,18 @@ public class Barre extends JMenuBar implements ActionListener{
 				ligne.setSelected(false);
 				droite.setSelected(false);
 				bouger.setEnabled(true);
+				delete.setSelected(false);
 			
+		}
+		if(o == delete)
+		{
+			if(delete.isSelected())
+				this.fenetre.getGestion().mode = this.fenetre.getGestion().mode.SUPPRIMER;
+				ligne.setSelected(false);
+				droite.setSelected(false);
+				selection.setSelected(false);
+				bouger.setSelected(false);
+				point.setSelected(false);
 		}
 		if(o == bouger)
 		{
@@ -183,7 +213,7 @@ public class Barre extends JMenuBar implements ActionListener{
 			if(selection.isSelected())
 				this.fenetre.getGestion().mode = this.fenetre.getGestion().mode.MOUVEMENT;
 				this.fenetre.getGestion().enMouvement = true;
-			
+				this.fenetre.getGestion().Mouvementactiver = false;
 		}
 		if(o == save)
 		{
@@ -258,6 +288,10 @@ public class Barre extends JMenuBar implements ActionListener{
 					System.out.println("Erreur à l'ouverture du fichier");
 				}
 			}
+		}
+		if(o == barycentre)
+		{
+			this.fenetre.getGestion().calculerBarycentre();
 		}
 		
 	}

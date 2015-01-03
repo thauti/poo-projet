@@ -11,6 +11,8 @@ public class Gestion {
 	
 	private ArrayList<Intersection> intersection;
 	
+	private ArrayList<Barycentre> barycentre;
+	
 	private Color c = Color.BLACK;
 	
 	private boolean afficherPoint = true;
@@ -20,10 +22,16 @@ public class Gestion {
 	private double zoom_y = 1.0;
 	
 	public enum Mode{
-		POINT, LIGNE, DROITE, SELECTION, MOUVEMENT
+		POINT, LIGNE, DROITE, SELECTION, MOUVEMENT, SUPPRIMER
 	}
 	
 	public Mode mode;
+
+	public boolean Mouvementactiver;
+
+	public int mouvementorgx;
+
+	public int mouvementorgy;
 	public Gestion()
 	{
 		this.c = Color.BLACK;
@@ -136,16 +144,103 @@ public class Gestion {
 		{
 			if(a instanceof Point)
 			{
-				System.out.println(a);
-				int xdecallage = x - a.x;
-				int ydecallage = y - a.y;
-				System.out.println(xdecallage +";"+ydecallage);
-				System.out.println(a.x +".;."+a.y);
-				((Point) a).setX(a.x + xdecallage);
-				((Point) a).setY(a.y + ydecallage);
+				int xdecallage;
+				int ydecallage;
+				
+				xdecallage = x -this.mouvementorgx;
+				ydecallage = y - this.mouvementorgy;
+				((Point) a).setX(((Point) a).getX()+xdecallage);
+				((Point) a).setY(((Point) a).getY()+ydecallage);
 			}
 		}
+		this.mouvementorgx =x;
+		this.mouvementorgy =y;
 		
+	}
+	public boolean isclicsurDroite(int x, int y) {
+		for(Forme f: this.figure)
+		{
+			if(f instanceof Droite)
+			{
+				int dy = (int) (x*((Droite) f).getm() + ((Droite) f).getp());
+				if(dy < y+5 && dy > y-5)
+				{
+					return true;
+				}
+				
+			}
+		}
+		return false;
+	}
+	public Forme getclicsurDroite(int x, int y) {
+		for(Forme f: this.figure)
+		{
+			if(f instanceof Droite)
+			{
+				int dy = (int) (x*((Droite) f).getm() + ((Droite) f).getp());
+				if(dy < y+5 && dy > y-5)
+				{
+					return f;
+				}
+				
+			}
+		}
+		return null;
+	}
+	public boolean dansSegment(Point p)
+	{
+		for(Forme f: this.figure)
+		{
+			if(f instanceof Ligne)
+			{
+				if(((Ligne) f).getP1() == p)
+				{
+					return true;
+				}
+				if(((Ligne) f).getP2() == p)
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	public Forme getPointSegment(Point p)
+	{
+		for(Forme f: this.figure)
+		{
+			if(f instanceof Ligne)
+			{
+				if(((Ligne) f).getP1() == p)
+				{
+					return f;
+				}
+				if(((Ligne) f).getP2() == p)
+				{
+					return f;
+				}
+			}
+		}
+		return null;
+	}
+	public int calculerBarycentre()
+	{
+		if(this.selection.size()  != 0)
+		{
+			int npoint = 0;
+			for(Forme f: this.selection)
+			{
+				if(f instanceof Point)
+				{
+					npoint += 1;
+				}
+			}
+			if(npoint >= 2)
+			{
+				return 1;
+			}
+		}
+		return 0;
 	}
 
 }

@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.io.Serializable;
 
@@ -50,6 +51,17 @@ public class Droite extends Forme implements Serializable {
 			g.drawLine(((int)org2x), 0, ((int)org2x), 5000);
 		}
 
+	}
+	public double getm()
+	{
+		return this.m;
+	}
+	public double getp()
+	{
+		return this.p;
+	}
+	public void setColor2(Color couleur) {
+		this.couleurref = couleur;
 	}
 	
 }

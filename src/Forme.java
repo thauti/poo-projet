@@ -9,6 +9,8 @@ public class Forme implements Serializable{
 	public boolean afficherPoint = false;
 	int x, y;
 	public Color c;
+	
+	public Color couleurref;
 
 	public Forme()
 	{

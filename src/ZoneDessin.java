@@ -107,22 +107,70 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 						
 					}
 				}
+				else if(g.isclicsurDroite(x, y))
+				{
+					if(!this.g.getSelection().contains(g.getclicsurDroite(x, y)))
+					{
+						
+						g.getclicsurDroite(x, y).setColor(Color.RED);
+						this.g.addSelection(g.getclicsurDroite(x, y));
+						this.repaint();
+					}
+					else
+					{
+						g.getclicsurDroite(x, y).setColor(this.g.getCouleur());
+						this.g.getSelection().remove(g.getclicsurDroite(x, y));
+						this.repaint();
+						
+					}
+				}
 				else
 				{
 					
 					for(Forme a: this.g.getSelection())
+					{
 						if(a instanceof Point)
 							a.setColor(Color.BLACK);
+						if(a instanceof Droite)
+							a.setColor(a.couleurref);
+					}
 					this.g.getSelection().clear();
 					this.repaint();
 				}
 				break;
 			case MOUVEMENT:
 				enCours = false;
+				if(this.g.Mouvementactiver)
+				{
 				if(this.g.enMouvement)
 					this.g.enMouvement = false;
 					this.f.getBarre().desactiverMouvement();
 					this.repaint();
+					this.g.mode = g.mode.SELECTION;
+				}
+				else
+				{
+					this.g.Mouvementactiver =true;
+					this.g.mouvementorgx = x;
+					this.g.mouvementorgy = y;
+				}
+				break;
+			case SUPPRIMER:
+				enCours = false;
+				if(this.g.isclicSurPoint(x, y))
+				{
+					System.out.println("True");
+					if(this.g.dansSegment(this.g.getclicSurPoint(x, y)))
+					{
+						this.g.getFigure().remove(this.g.getPointSegment(this.g.getclicSurPoint(x, y)));
+					}
+					this.g.getFigure().remove(this.g.getclicSurPoint(x, y));
+				}
+				if(this.g.isclicsurDroite(x, y))
+				{
+					this.g.getFigure().remove(this.g.getclicsurDroite(x, y));
+				}
+				this.repaint();
 				break;
 			}
 			
@@ -182,7 +230,12 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 						}
 					}
 					d.setColor(g.getCouleur());
+					d.setColor2(g.getCouleur());
 					g.ajouter(d);
+				}
+				else if(this.g.isclicsurDroite(orgx, orgy))
+				{
+					
 				}
 				else
 				{
@@ -190,6 +243,7 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 					d.setOrg(orgx, orgy);
 					d.setOrg2(x, y);
 					d.setColor(g.getCouleur());
+					d.setColor2(g.getCouleur());
 					g.ajouter(d);
 				}
 				break;
@@ -233,8 +287,11 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 		if(this.g.enMouvement){
 			if(g.mode == g.mode.MOUVEMENT)
 			{
-				g.mouvement(x, y);
-				this.repaint();
+				if(g.Mouvementactiver)
+				{
+					g.mouvement(x, y);
+					this.repaint();
+				}
 			}
 		}
 		if(enCreation != null)
