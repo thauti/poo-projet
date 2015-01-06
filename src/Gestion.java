@@ -38,6 +38,7 @@ public class Gestion {
 		mode = Mode.POINT;
 		figure = new ArrayList<Forme>();
 		selection = new ArrayList<Forme>();
+		barycentre = new ArrayList<Barycentre>();
 	}
 	public void setColor(Color c)
 	{
@@ -92,6 +93,12 @@ public class Gestion {
 			figure.get(i).afficher(g);
 			g.setColor(c);
 		}
+		for(Barycentre b: barycentre)
+		{
+			b.afficher(g);
+			g.setColor(c);
+		}
+		
 	}
 	public Color getCouleur()
 	{
@@ -117,7 +124,7 @@ public class Gestion {
 	}
 	public String toSVG()
 	{
-		return ExportSVG.toSVG(figure);
+		return ExportSVG.toSVG(figure, barycentre);
 	}
 	public void chargerArray(Object a)
 	{
@@ -237,10 +244,25 @@ public class Gestion {
 			}
 			if(npoint >= 2)
 			{
+				Barycentre b = new Barycentre();
+				for(Forme f: this.selection)
+				{
+					if(f instanceof Point)
+					{
+						b.listepoint.add((Point) f);
+					}
+				}
+				b.calculerBarycentre();
+				this.barycentre.add(b);
+				System.out.println("tello");
 				return 1;
 			}
 		}
 		return 0;
+	}
+	public ArrayList<Barycentre> getBarycentre()
+	{
+		return this.barycentre;
 	}
 
 }

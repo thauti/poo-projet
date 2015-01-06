@@ -57,6 +57,7 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 		{
 			enCreation.afficher(g);
 		}
+		System.out.println("a");
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -253,6 +254,7 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 			enCreation = null;
 		}
 			this.repaint();
+			
 	}
 	@Override
 	public void mouseEntered(MouseEvent e) {
@@ -310,6 +312,7 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 			}
 			
 		}
+		
 	}
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent arg0) {

@@ -15,6 +15,8 @@ public class Droite extends Forme implements Serializable {
 	
 	private double org2x;
 	private double org2y;
+	private int y1;
+	private int y2;
 	
 	public Droite()
 	{
@@ -43,6 +45,8 @@ public class Droite extends Forme implements Serializable {
 			
 			int y1 = (int) (0*m + p);
 			int y2 = (int) (5000*m +p);
+			this.y1 = y1;
+			this.y2 = y2;
 			g.drawLine(0, y1, 5000, y2);
 
 		}
@@ -63,5 +67,10 @@ public class Droite extends Forme implements Serializable {
 	public void setColor2(Color couleur) {
 		this.couleurref = couleur;
 	}
-	
+	public String toSVG()
+	{
+		return "<line x1='"+0+"' y1='"+this.y1+"'"
+				+ 				" x2 ='"+5000+"' y2='"+this.y2+"'"
+									+ " stroke='black' />";
+	}
 }

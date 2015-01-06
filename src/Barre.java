@@ -162,6 +162,7 @@ public class Barre extends JMenuBar implements ActionListener{
 		if(o == nouveau)
 		{
 			fenetre.getGestion().getFigure().clear();
+			fenetre.getGestion().getBarycentre().clear();
 			fenetre.repaint();
 			
 			
@@ -218,7 +219,6 @@ public class Barre extends JMenuBar implements ActionListener{
 		if(o == save)
 		{
 
-			System.out.println(ExportSVG.toSVG(this.fenetre.getGestion().getFigure()));
 			JFileChooser filechooser = new JFileChooser();
 			filechooser.setDialogTitle("Exporter en SVG ...");
 			filechooser.setAcceptAllFileFilterUsed(false);
