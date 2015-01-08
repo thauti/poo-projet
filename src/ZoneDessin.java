@@ -17,7 +17,9 @@ import javax.swing.JScrollPane;
 import javax.swing.Scrollable;
 import javax.swing.ViewportLayout;
 
-
+/**
+ * Represente la partie Graphique du programme
+ */
 public class ZoneDessin extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener{
 
 	private int cursor_x;
@@ -33,6 +35,10 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 	private int orgx;
 	private int orgy;
 	
+	/**
+	 * Constructeur
+	 * @param fen La fenetre en cours
+	 */
 	public ZoneDessin(Fenetre fen)
 	{
 		super();
@@ -69,6 +75,7 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 		
 		if(!enCours)
 		{
+			// Si on etait pas en cours de creation d'une figure
 			enCours = true;
 			switch(g.mode)
 			{
@@ -130,7 +137,6 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 				}
 				else
 				{
-					
 					for(Forme a: this.g.getSelection())
 					{
 						if(a instanceof Point)
@@ -206,6 +212,7 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 		}
 		else
 		{
+			//Sinon on l'a cree
 			switch(g.mode)
 			{
 			case LIGNE:

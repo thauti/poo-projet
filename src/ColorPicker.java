@@ -15,7 +15,9 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-
+/*
+ * * un nuancier
+ */
 public class ColorPicker extends JDialog implements ChangeListener, ActionListener{
 
 	
@@ -30,11 +32,10 @@ public class ColorPicker extends JDialog implements ChangeListener, ActionListen
 	    JButton annuler;
 	   
 	   
-	 
+	    /**
+    	 * Constructeur du Nuancer
+    	 */
 	    public ColorPicker(Fenetre fen, JButton b){
-	    	/**
-	    	 * Constructeur du Nuancer
-	    	 */
 	        /*Specificité de la fenetre*/
 	        this.setTitle("Couleur");
 	        this.setSize(500, 300);

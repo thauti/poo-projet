@@ -6,7 +6,9 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JScrollPane;
 
-
+/**
+ * Fenetre Principale
+ */
 public class Fenetre extends JFrame{
 	private Barre menu_bar;
 
@@ -16,6 +18,10 @@ public class Fenetre extends JFrame{
 
 	public JScrollPane scrollpan;
 	
+	/**
+	 * Cree une fenetre
+	 * @param Gestion
+	 */
 	public Fenetre(Gestion gest)
 	{
 		super("Dessin Vectoriel");
@@ -27,6 +33,9 @@ public class Fenetre extends JFrame{
 		this.setVisible(true);
 		
 	}
+	/**
+	 * Initialise la fenetre
+	 */
 	private void initFenetre()
 	{
 		menu_bar = new Barre(this);

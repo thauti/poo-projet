@@ -2,25 +2,51 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
-
+/**
+ * Objet Gestion, Gere la logique du programme
+ */
 public class Gestion {
 	
+	/**
+	 *  Liste des figures crees
+	 */
 	private ArrayList<Forme> figure;
 	
+	/**
+	 *  Figures en cours de selection
+	 */
 	private ArrayList<Forme> selection;
 	
+	/**
+	 *  Liste des intersections
+	 */
 	private ArrayList<Intersection> intersection;
 	
+	/**
+	 *  Liste des barycentres
+	 */
 	private ArrayList<Barycentre> barycentre;
 	
+	/**
+	 *  Couleur en cours
+	 */
 	private Color c = Color.BLACK;
 	
+	/**
+	 *  Options d'affichage
+	 */
 	private boolean afficherPoint = true;
 	public boolean enMouvement = false;
 	
+	/*
+	 *  Zoom
+	 */
 	private double zoom_x = 1.0;
 	private double zoom_y = 1.0;
 	
+	/*
+	 *  Mode en cours
+	 */
 	public enum Mode{
 		POINT, LIGNE, DROITE, SELECTION, MOUVEMENT, SUPPRIMER
 	}
@@ -37,6 +63,9 @@ public class Gestion {
 
 	public boolean afficherIntersection = true;
 	
+	/**
+	 * Constructeur
+	 */
 	public Gestion()
 	{
 		this.c = Color.BLACK;
@@ -46,10 +75,20 @@ public class Gestion {
 		barycentre = new ArrayList<Barycentre>();
 		intersection = new ArrayList<Intersection>();
 	}
+	/**
+	 * Changer la couleur en cours
+	 * @param c
+	 * 			La couleur choisie
+	 */
 	public void setColor(Color c)
 	{
 		this.c = c;
 	}
+	/**
+	 * Ajouter une forme
+	 * @param f
+	 * 			La forme
+	 */
 	public void ajouter(Forme f)
 	{
 		if(f != null)
@@ -62,6 +101,9 @@ public class Gestion {
 			System.out.println("Erreur");
 		System.out.println(f.toString());
 	}
+	/**
+	 * Calcule les intersections
+	 */
 	public void genererintersection() {
 		if(this.figure.size() > 1)
 		{
@@ -85,6 +127,12 @@ public class Gestion {
 			}
 		}
 	}
+	/**
+	 * Clique t-on sur un point
+	 * @param x Position x
+	 * @param y Position y
+	 * @return true si on clique sur un point
+	 */
 	public boolean isclicSurPoint(int x, int y)
 	{
 		for(int i = 0; i<figure.size(); i++)
@@ -100,6 +148,11 @@ public class Gestion {
 		}
 		return false;
 	}
+	/**
+	 * Retourne le point sur la posistion ou l'on clique
+	 * @param x Position x
+	 * @param y Position y
+	 */
 	public Point getclicSurPoint(int x, int y)
 	{
 		for(int i = 0; i<figure.size(); i++)
@@ -115,6 +168,9 @@ public class Gestion {
 		}
 		return null;
 	}
+	/**
+	 * Méthode de rendu
+	 */
 	public void afficher(Graphics g)
 	{
 		for(int i =0; i<figure.size();i++)
@@ -145,28 +201,46 @@ public class Gestion {
 		
 		
 	}
+	/**
+	 * Renvoie la couleur en cours
+	 */
 	public Color getCouleur()
 	{
 		return this.c;
 	}
+	/**
+	 * Renvoie le zoom en x
+	 */
 	public double getZoomX()
 	{
 		return this.zoom_x;
 	}
+	/**
+	 * Renvoie le zoom en y
+	 */
 	public double getZoomY()
 	{
 		return this.zoom_y;
 	}
+	/**
+	 * Ajoute du zoom
+	 */
 	public void addZoom(double i, double j)
 	{
 		
 		this.zoom_x += i;
 		this.zoom_y += j;
 	}
+	/**
+	 * Renvoie la liste de figures
+	 */
 	public ArrayList<Forme> getFigure()
 	{
 		return this.figure;
 	}
+	/**
+	 * Génération du texte du futur SVG
+	 */
 	public String toSVG()
 	{
 		if(this.afficherBarycentre && this.afficherIntersection)
@@ -191,6 +265,10 @@ public class Gestion {
 		}
 		return "";
 	}
+	/**
+	 * Chargement d'un fichier
+	 * @param a Objet
+	 */
 	public void chargerArray(Object a)
 	{
 		try
@@ -203,14 +281,24 @@ public class Gestion {
 			System.out.println("Erreur à l'ouverture du fichier");
 		}
 	}
+	/**
+	 * Ajoute une forme a la selection
+	 * @param f La forme
+	 */
 	public void addSelection(Forme f)
 	{
 		this.selection.add(f);
 	}
+	/**
+	 * Renvoie la selection en cours
+	 */
 	public  ArrayList<Forme> getSelection()
 	{
 		return this.selection;
 	}
+	/**
+	 * Bouge les elements selectionnees
+	 */
 	public void mouvement(int x, int y) {
 		for(Forme a: selection) 
 		{
@@ -237,6 +325,9 @@ public class Gestion {
 		this.mouvementorgy =y;
 		
 	}
+	/**
+	 * Indique si on clique sur une droite
+	 */
 	public boolean isclicsurDroite(int x, int y) {
 		for(Forme f: this.figure)
 		{
@@ -252,6 +343,11 @@ public class Gestion {
 		}
 		return false;
 	}
+	/**
+	 * Renvoie la droite en x,y
+	 * @param Position x
+	 * @param Poistion y
+	 */
 	public Forme getclicsurDroite(int x, int y) {
 		for(Forme f: this.figure)
 		{
@@ -267,6 +363,10 @@ public class Gestion {
 		}
 		return null;
 	}
+	/**
+	 * Inidique si un point fait partie d'un segment
+	 *@param p Le point
+	 */
 	public boolean dansSegment(Point p)
 	{
 		for(Forme f: this.figure)
@@ -303,6 +403,9 @@ public class Gestion {
 		}
 		return null;
 	}
+	/**
+	 * Calcul de barycentre
+	 */
 	public int calculerBarycentre()
 	{
 		if(this.selection.size()  !=0)
@@ -336,6 +439,9 @@ public class Gestion {
 		}
 		return -1;
 	}
+	/**
+	 * Recalcule les barycentres
+	 */
 	public void recalculerBarycentre()
 	{
 		if(this.afficherBarycentre)
@@ -347,6 +453,9 @@ public class Gestion {
 		}
 
 	}
+	/**
+	 * Recalcule les intersections
+	 */
 	public void recalculerIntersection()
 	{
 		if(this.afficherIntersection)
@@ -357,10 +466,16 @@ public class Gestion {
 			}
 		}
 	}
+	/**
+	 * Getter Barycentre
+	 */
 	public ArrayList<Barycentre> getBarycentre()
 	{
 		return this.barycentre;
 	}
+	/**
+	 * Getter Intersection
+	 */
 	public ArrayList<Intersection> getIntersection()
 	{
 		return this.intersection;

@@ -2,14 +2,20 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.io.Serializable;
 
-
+/**
+ * Represente une droite
+ */
 public class Droite extends Forme implements Serializable {
 
 
 	private static final long serialVersionUID = -6873228210001511477L;
+	/**
+	 * Coefficient directeur
+	 */
 	public double m; // Coefficient directeur y = mx + p
 	public double p; 
 	
+	// Org et org2 representent 2 points permettant de calculer le coefficient directeur
 	public int orgx;
 	public int orgy;
 	
@@ -36,6 +42,10 @@ public class Droite extends Forme implements Serializable {
 		this.org2x = xprecis;
 		this.org2y = yprecis;
 	}
+	/**
+	 * 
+	 * @see Forme#afficher(java.awt.Graphics)
+	 */
 	public void afficher(Graphics g) {
 		g.setColor(c);
 		if(org2x - orgx != 0)
@@ -56,10 +66,16 @@ public class Droite extends Forme implements Serializable {
 		}
 
 	}
+	/**
+	 * Getter coefficient directeur
+	 */
 	public double getm()
 	{
 		return this.m;
 	}
+	/**
+	 * Getter
+	 */
 	public double getp()
 	{
 		return this.p;
@@ -67,6 +83,10 @@ public class Droite extends Forme implements Serializable {
 	public void setColor2(Color couleur) {
 		this.couleurref = couleur;
 	}
+	/**
+	 * 
+	 * @see Forme#toSVG()
+	 */
 	public String toSVG()
 	{
 		return "<line x1='"+0+"' y1='"+this.y1+"'"

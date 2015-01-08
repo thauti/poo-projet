@@ -18,7 +18,9 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 
-
+/**
+ * Cree la Barre de Menu
+ */
 public class Barre extends JMenuBar implements ActionListener{
 	
 	private Fenetre fenetre;
@@ -57,6 +59,11 @@ public class Barre extends JMenuBar implements ActionListener{
 	
 	private JMenuItem save2;
 	
+	/**
+	 * Cree une barre
+	 * @param fen
+	 * 			La fenetre rattache
+	 */
 	public Barre(Fenetre fen)
 	{
 		/**
@@ -159,10 +166,12 @@ public class Barre extends JMenuBar implements ActionListener{
 		Object o = e.getSource();
 		if(o == couleur)
 		{
+			//Ouvrir le nuancier
 			ColorPicker cp = new ColorPicker(fenetre, couleur);
 		}
 		if(o == point)
 		{
+			// On cree un point
 			if(point.isSelected())
 				this.fenetre.getGestion().mode = this.fenetre.getGestion().mode.POINT;
 				ligne.setSelected(false);
@@ -173,6 +182,7 @@ public class Barre extends JMenuBar implements ActionListener{
 		}
 		if(o == nouveau)
 		{
+			// On reset la fenetre
 			fenetre.getGestion().getSelection().clear();
 			fenetre.getGestion().getFigure().clear();
 			fenetre.getGestion().getBarycentre().clear();
@@ -183,6 +193,7 @@ public class Barre extends JMenuBar implements ActionListener{
 		}
 		if(o == ligne)
 		{
+			// On cree une ligne
 			if(ligne.isSelected())
 				this.fenetre.getGestion().mode = this.fenetre.getGestion().mode.LIGNE;
 				point.setSelected(false);
@@ -193,6 +204,7 @@ public class Barre extends JMenuBar implements ActionListener{
 		}
 		if(o == droite)
 		{
+			// on cree une droite
 			if(droite.isSelected())
 				this.fenetre.getGestion().mode = this.fenetre.getGestion().mode.DROITE;
 				point.setSelected(false);
@@ -203,6 +215,7 @@ public class Barre extends JMenuBar implements ActionListener{
 		}
 		if(o == selection)
 		{
+			//on selectionne
 			if(selection.isSelected())
 				this.fenetre.getGestion().mode = this.fenetre.getGestion().mode.SELECTION;
 				point.setSelected(false);
@@ -214,6 +227,7 @@ public class Barre extends JMenuBar implements ActionListener{
 		}
 		if(o == delete)
 		{
+			// Supression
 			if(delete.isSelected())
 				this.fenetre.getGestion().mode = this.fenetre.getGestion().mode.SUPPRIMER;
 				ligne.setSelected(false);
@@ -224,7 +238,7 @@ public class Barre extends JMenuBar implements ActionListener{
 		}
 		if(o == bouger)
 		{
-			
+			// Deplacement
 			if(selection.isSelected())
 				this.fenetre.getGestion().mode = this.fenetre.getGestion().mode.MOUVEMENT;
 				this.fenetre.getGestion().enMouvement = true;
@@ -232,7 +246,7 @@ public class Barre extends JMenuBar implements ActionListener{
 		}
 		if(o == save)
 		{
-
+			// Export en SVG
 			JFileChooser filechooser = new JFileChooser();
 			filechooser.setDialogTitle("Exporter en SVG ...");
 			filechooser.setAcceptAllFileFilterUsed(false);
@@ -262,6 +276,7 @@ public class Barre extends JMenuBar implements ActionListener{
 		}
 		if(o == save2)
 		{
+			// Sauvegarder
 			JFileChooser filechooser = new JFileChooser();
 			filechooser.setDialogTitle("Enregistrer");
 			int a = filechooser.showSaveDialog(fenetre);
@@ -283,7 +298,7 @@ public class Barre extends JMenuBar implements ActionListener{
 		}
 		if(o == open)
 		{
-			
+			// Ouvrir
 			JFileChooser filechooser = new JFileChooser();
 			filechooser.setDialogTitle("Ouvrir");
 			int a = filechooser.showOpenDialog(fenetre);
@@ -306,6 +321,7 @@ public class Barre extends JMenuBar implements ActionListener{
 		}
 		if(o == barycentre)
 		{
+			// Creation d'un barycentre
 			int etat = this.fenetre.getGestion().calculerBarycentre();
 			if(etat == -1)
 			{

@@ -2,7 +2,12 @@ import java.util.ArrayList;
 
 
 public class ExportSVG {
-
+		/**
+		 * Exporte les figures en SVG
+		 * @param f La liste des formes
+		 * @param b La liste des barycentres
+		 * @param intersection La liste des intersections
+		 */
 		public static String toSVG(ArrayList<Forme> f, ArrayList<Barycentre> b, ArrayList<Intersection> intersection)
 		{
 			int maxx = 250;

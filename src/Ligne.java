@@ -1,7 +1,9 @@
 import java.awt.Color;
 import java.awt.Graphics;
 
-
+/**
+ * Cree un segment
+ */
 public class Ligne extends Forme {
 
 	private static final long serialVersionUID = 8994121535219948345L;
@@ -10,10 +12,16 @@ public class Ligne extends Forme {
 	
 	public boolean afficherPoint = false;
 	
+	/**
+	 * Constructeur 
+	 */
 	public Ligne()
 	{
 	
 	}
+	/**
+	 * Constructeur
+	 */
 	public Ligne(int p1_x, int p1_y, int p2_x, int p2_y)
 	{
 
@@ -30,11 +38,17 @@ public class Ligne extends Forme {
 		point1 = p1;
 		point2 = new Point(x, y);
 	}
+	/**
+	 * Setter du point 1
+	 */
 	public void setP1(int x,int y)
 	{
 		point1.setX(x);
 		point1.setY(y);
 	}
+	/**
+	 * Setter point 2
+	 */
 	public void setP2(int x, int y)
 	{
 		point2.setX(x);
@@ -48,6 +62,9 @@ public class Ligne extends Forme {
 	{
 		return point2;
 	}
+	/**
+	 * @see Forme#afficher(java.awt.Graphics)
+	 */
 	public void afficher(Graphics g)
 	{
 		if(afficherPoint)
@@ -59,10 +76,18 @@ public class Ligne extends Forme {
 		g.drawLine(point1.getX()+x, point1.getY()+y, point2.getX()+x, point2.getY()+y);
 		g.setColor(Color.black);
 	}
+	/**
+	 * 
+	 * @see Forme#afficherPoint(boolean)
+	 */
 	public void afficherPoint(boolean a)
 	{
 		this.afficherPoint = a;
 	}
+	/**
+	 * 
+	 * @see Forme#toSVG()
+	 */
 	public String toSVG()
 	{
 
