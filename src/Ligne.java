@@ -68,7 +68,7 @@ public class Ligne extends Forme {
 
 		return "<line x1='"+point1.getX()+"' y1='"+point1.getY()+"'"
 				+ 				" x2 ='"+point2.getX()+"' y2='"+point2.getY()+"'"
-									+ " stroke='black' />";
+									+ " stroke='rgb("+this.c.getRed()+","+this.c.getGreen()+","+this.c.getBlue()+")' />";
 		
 	}
 }

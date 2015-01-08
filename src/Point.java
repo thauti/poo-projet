@@ -38,13 +38,13 @@ public class Point extends Forme{
 	public void afficher(Graphics g)
 	{
 		g.setColor(this.c);
-		g.drawOval(this.x-4+super.x, this.y-4+super.y, 8, 8);
+		g.fillOval(this.x-4+super.x, this.y-4+super.y, 8, 8);
 	}
 	public String toSVG()
 	{
 		int x = this.x;
 		int y = this.y;
-		return "<circle cx='"+x+"' cy='"+y+"' r='5' fill='black' />";
+		return "<circle cx='"+x+"' cy='"+y+"' r='4' fill='rgb("+this.c.getRed()+","+this.c.getGreen()+","+this.c.getBlue()+")' />";
 		
 	}
 }

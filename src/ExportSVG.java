@@ -3,10 +3,10 @@ import java.util.ArrayList;
 
 public class ExportSVG {
 
-		public static String toSVG(ArrayList<Forme> f, ArrayList<Barycentre> b)
+		public static String toSVG(ArrayList<Forme> f, ArrayList<Barycentre> b, ArrayList<Intersection> intersection)
 		{
-			int maxx = 0;
-			int maxy = 0;
+			int maxx = 250;
+			int maxy = 250;
 			
 			for(Forme a : f)
 			{
@@ -26,9 +26,19 @@ public class ExportSVG {
 			{
 				s = s+a.toSVG()+"\n";
 			}
-			for(Barycentre ba: b)
+			if(b != null)
 			{
-				s = s+ ba.toSVG();
+				for(Barycentre ba: b)
+				{
+					s = s+ ba.toSVG();
+				}
+			}
+			if(intersection != null)
+			{
+				for(Intersection a: intersection)
+				{
+					s = s+ a.toSVG();
+				}
 			}
 			s= s+"</svg>";
 			return s;

@@ -10,6 +10,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -51,13 +52,14 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 		g2.scale(this.g.getZoomX(), this.g.getZoomY());
 		super.paintComponent(g);
 		this.f.scrollpan.repaint();
+		this.g.genererintersection();
 		this.g.afficher(g);
 
 		if(enCreation != null)
 		{
 			enCreation.afficher(g);
 		}
-		System.out.println("a");
+
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -72,6 +74,7 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 			{
 			case POINT:
 				enCreation = new Point(x, y);
+				enCreation.setColor(this.g.getCouleur());
 				g.ajouter(enCreation);
 				enCours = false;
 				enCreation = null;
@@ -161,6 +164,18 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 				if(this.g.isclicSurPoint(x, y))
 				{
 					System.out.println("True");
+					ArrayList<Barycentre> asupprimer = new ArrayList<Barycentre>();
+					for(Barycentre b: this.g.getBarycentre())
+					{
+						if(b.listepoint.contains(this.g.getclicSurPoint(x, y)))
+						{
+							asupprimer.add(b);
+						}
+					}
+					for(Barycentre b: asupprimer)
+					{
+						this.g.getBarycentre().remove(b);
+					}
 					if(this.g.dansSegment(this.g.getclicSurPoint(x, y)))
 					{
 						this.g.getFigure().remove(this.g.getPointSegment(this.g.getclicSurPoint(x, y)));
@@ -169,7 +184,20 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 				}
 				if(this.g.isclicsurDroite(x, y))
 				{
+					ArrayList<Intersection> asupprimerinter = new ArrayList<Intersection>();
+					for(Intersection b: this.g.getIntersection())
+					{
+						if(b.f1 == this.g.getclicsurDroite(x, y) || b.f2 == this.g.getclicsurDroite(x, y))
+						{
+							asupprimerinter.add(b);
+						}
+					}
+					for(Intersection b: asupprimerinter)
+					{
+						this.g.getIntersection().remove(b);
+					}
 					this.g.getFigure().remove(this.g.getclicsurDroite(x, y));
+					this.g.getSelection().remove(this.g.getclicsurDroite(x, y));
 				}
 				this.repaint();
 				break;
@@ -211,6 +239,8 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 					Ligne l = new Ligne(orgx, orgy, x, y);
 					l.setColor(g.getCouleur());
 					g.ajouter(l);
+					l.getP1().setColor(g.getCouleur());
+					l.getP2().setColor(g.getCouleur());
 					g.ajouter(l.getP1());
 					g.ajouter(l.getP2());
 				}
@@ -233,6 +263,7 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 					d.setColor(g.getCouleur());
 					d.setColor2(g.getCouleur());
 					g.ajouter(d);
+					
 				}
 				else if(this.g.isclicsurDroite(orgx, orgy))
 				{
@@ -246,6 +277,7 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 					d.setColor(g.getCouleur());
 					d.setColor2(g.getCouleur());
 					g.ajouter(d);
+					
 				}
 				break;
 			}
@@ -292,6 +324,8 @@ public class ZoneDessin extends JPanel implements MouseListener, MouseMotionList
 				if(g.Mouvementactiver)
 				{
 					g.mouvement(x, y);
+					g.recalculerBarycentre();
+					g.recalculerIntersection();
 					this.repaint();
 				}
 			}

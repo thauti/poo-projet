@@ -7,14 +7,14 @@ public class Droite extends Forme implements Serializable {
 
 
 	private static final long serialVersionUID = -6873228210001511477L;
-	private double m; // Coefficient directeur y = mx + p
-	private double p; 
+	public double m; // Coefficient directeur y = mx + p
+	public double p; 
 	
-	private int orgx;
-	private int orgy;
+	public int orgx;
+	public int orgy;
 	
-	private double org2x;
-	private double org2y;
+	public double org2x;
+	public double org2y;
 	private int y1;
 	private int y2;
 	
@@ -71,6 +71,6 @@ public class Droite extends Forme implements Serializable {
 	{
 		return "<line x1='"+0+"' y1='"+this.y1+"'"
 				+ 				" x2 ='"+5000+"' y2='"+this.y2+"'"
-									+ " stroke='black' />";
+									+ " stroke='rgb("+this.c.getRed()+","+this.c.getGreen()+","+this.c.getBlue()+")' />";
 	}
 }

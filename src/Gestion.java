@@ -32,6 +32,11 @@ public class Gestion {
 	public int mouvementorgx;
 
 	public int mouvementorgy;
+
+	public boolean afficherBarycentre = true;
+
+	public boolean afficherIntersection = true;
+	
 	public Gestion()
 	{
 		this.c = Color.BLACK;
@@ -39,6 +44,7 @@ public class Gestion {
 		figure = new ArrayList<Forme>();
 		selection = new ArrayList<Forme>();
 		barycentre = new ArrayList<Barycentre>();
+		intersection = new ArrayList<Intersection>();
 	}
 	public void setColor(Color c)
 	{
@@ -47,10 +53,37 @@ public class Gestion {
 	public void ajouter(Forme f)
 	{
 		if(f != null)
+		{
 			figure.add(f);
+			if(this.afficherIntersection)
+				this.genererintersection();
+		}
 		else
 			System.out.println("Erreur");
 		System.out.println(f.toString());
+	}
+	public void genererintersection() {
+		if(this.figure.size() > 1)
+		{
+			for(int i =0; this.figure.size()>i;i++)
+			{
+				for(int j=i+1; this.figure.size()>j;j++)
+				{
+					if(this.figure.get(i) instanceof Droite)
+					{
+						if(this.figure.get(j) instanceof Droite)
+						{
+							if(this.figure.get(j) != this.figure.get(i))
+							{
+							Intersection ins = new Intersection(this.figure.get(i), this.figure.get(j));
+							ins.calculerIntersection();
+							this.intersection.add(ins);
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 	public boolean isclicSurPoint(int x, int y)
 	{
@@ -93,11 +126,23 @@ public class Gestion {
 			figure.get(i).afficher(g);
 			g.setColor(c);
 		}
-		for(Barycentre b: barycentre)
+		if(this.afficherBarycentre)
 		{
-			b.afficher(g);
-			g.setColor(c);
+			for(Barycentre b: barycentre)
+			{
+				b.afficher(g);
+				g.setColor(c);
+			}
 		}
+		if(this.afficherIntersection)
+		{
+			for(Intersection i: intersection)
+			{
+				i.afficher(g);
+				g.setColor(c);
+			}
+		}
+		
 		
 	}
 	public Color getCouleur()
@@ -124,7 +169,27 @@ public class Gestion {
 	}
 	public String toSVG()
 	{
-		return ExportSVG.toSVG(figure, barycentre);
+		if(this.afficherBarycentre && this.afficherIntersection)
+		{
+			return ExportSVG.toSVG(figure, barycentre, intersection);
+		}else
+		if(this.afficherBarycentre == false && this.afficherIntersection == true)
+		{
+			return ExportSVG.toSVG(figure, null, intersection);
+
+		}else
+		if(this.afficherBarycentre == false && this.afficherIntersection == false)
+		{
+			return ExportSVG.toSVG(figure, null, null);
+
+			
+		}else
+		if(this.afficherBarycentre == true && this.afficherIntersection == false)
+		{
+			return ExportSVG.toSVG(figure, barycentre, null);
+
+		}
+		return "";
 	}
 	public void chargerArray(Object a)
 	{
@@ -158,6 +223,14 @@ public class Gestion {
 				ydecallage = y - this.mouvementorgy;
 				((Point) a).setX(((Point) a).getX()+xdecallage);
 				((Point) a).setY(((Point) a).getY()+ydecallage);
+			}
+			if(a instanceof Droite)
+			{
+
+				int ydecallage;
+				ydecallage = y - this.mouvementorgy;
+				((Droite) a).orgy += ydecallage;
+				((Droite) a).org2y += ydecallage;
 			}
 		}
 		this.mouvementorgx =x;
@@ -232,7 +305,7 @@ public class Gestion {
 	}
 	public int calculerBarycentre()
 	{
-		if(this.selection.size()  != 0)
+		if(this.selection.size()  !=0)
 		{
 			int npoint = 0;
 			for(Forme f: this.selection)
@@ -254,15 +327,43 @@ public class Gestion {
 				}
 				b.calculerBarycentre();
 				this.barycentre.add(b);
-				System.out.println("tello");
 				return 1;
 			}
+			else
+			{
+				return -1;
+			}
 		}
-		return 0;
+		return -1;
+	}
+	public void recalculerBarycentre()
+	{
+		if(this.afficherBarycentre)
+		{
+			for(Barycentre b: barycentre)
+			{
+				b.calculerBarycentre();
+			}
+		}
+
+	}
+	public void recalculerIntersection()
+	{
+		if(this.afficherIntersection)
+		{
+			for(Intersection b: intersection)
+			{
+				b.calculerIntersection();
+			}
+		}
 	}
 	public ArrayList<Barycentre> getBarycentre()
 	{
 		return this.barycentre;
+	}
+	public ArrayList<Intersection> getIntersection()
+	{
+		return this.intersection;
 	}
 
 }

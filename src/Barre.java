@@ -39,6 +39,10 @@ public class Barre extends JMenuBar implements ActionListener{
 	
 	private JMenuItem barycentre;
 	
+	private JCheckBoxMenuItem masquerbarycentre;
+	
+	private JCheckBoxMenuItem masquerintersection;
+
 	private JToggleButton bouger;
 	
 	private JButton couleur;
@@ -116,10 +120,17 @@ public class Barre extends JMenuBar implements ActionListener{
 		save = new JMenuItem("Exporter en SVG ...");
 		save.addActionListener(this);
 		exit = new JMenuItem("Quitter");
-		
+		exit.addActionListener(this);
 		barycentre = new JMenuItem("Calculer le barycentre");
 		barycentre.addActionListener(this);
 		
+		masquerbarycentre = new JCheckBoxMenuItem("Afficher les barycentres");
+		masquerbarycentre.addActionListener(this);
+		masquerbarycentre.setSelected(true);
+		
+		masquerintersection = new JCheckBoxMenuItem("Afficher les intersections");
+		masquerintersection.addActionListener(this);
+		masquerintersection.setSelected(true);
 		fichier.add(nouveau);
 		fichier.add(open);
 		fichier.add(save2);
@@ -127,7 +138,8 @@ public class Barre extends JMenuBar implements ActionListener{
 		fichier.add(exit);
 		
 		options.add(barycentre);
-		
+		options.add(masquerbarycentre);
+		options.add(masquerintersection);
 		this.add(fichier);
 		this.add(options);
 		this.add(point);
@@ -161,8 +173,10 @@ public class Barre extends JMenuBar implements ActionListener{
 		}
 		if(o == nouveau)
 		{
+			fenetre.getGestion().getSelection().clear();
 			fenetre.getGestion().getFigure().clear();
 			fenetre.getGestion().getBarycentre().clear();
+			fenetre.getGestion().getIntersection().clear();
 			fenetre.repaint();
 			
 			
@@ -280,6 +294,7 @@ public class Barre extends JMenuBar implements ActionListener{
 					ObjectInputStream ois = new ObjectInputStream(fis);
 					fenetre.getGestion().getFigure().clear();
 					fenetre.getGestion().chargerArray(ois.readObject());
+					fenetre.getGestion().recalculerIntersection();
 					ois.close();
 					fis.close();
 				} catch (IOException e1) {
@@ -291,7 +306,41 @@ public class Barre extends JMenuBar implements ActionListener{
 		}
 		if(o == barycentre)
 		{
-			this.fenetre.getGestion().calculerBarycentre();
+			int etat = this.fenetre.getGestion().calculerBarycentre();
+			if(etat == -1)
+			{
+				JOptionPane.showMessageDialog(fenetre,
+					    "Vous devez sélectionner au moins 2 points",
+					    "Erruer",
+					    JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		if(o == masquerbarycentre)
+		{
+			if(masquerbarycentre.isSelected())
+			{
+				this.fenetre.getGestion().afficherBarycentre = true;
+			}
+			else
+			{
+				this.fenetre.getGestion().afficherBarycentre = false;
+			}
+		}
+		if(o == masquerintersection)
+		{
+			if(masquerintersection.isSelected())
+			{
+				this.fenetre.getGestion().afficherIntersection = true;
+			}
+			else
+			{
+				this.fenetre.getGestion().afficherIntersection = false;
+			}
+		}
+		if(o == exit)
+		{
+			this.fenetre.dispose();
+			System.exit(0);
 		}
 		
 	}
